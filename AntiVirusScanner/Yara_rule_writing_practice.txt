@@ -1,0 +1,9 @@
+rule practice \\just a practice, not a real ule
+{
+	strings:
+		$hacker_text_string = "I am a hacker!"
+		$hacker_purpose_string = "I will becom rich!"
+		$program_purpose_string = "This program will take control over the computer!!"
+	condition:
+		1 of them
+}
