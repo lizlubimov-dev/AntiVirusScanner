@@ -1,17 +1,23 @@
-from encodings import undefined
 import requests
 import tkinter
+import time
+import os
 from tkinter import DISABLED, NORMAL, filedialog
+
+g_filepath = ""
 
 def main():
     url = "https://www.virustotal.com/vtapi/v2/file/scan"
     
     params = {"apikey": "5f889b7566fb64af84c36cf53c01897e00952a9b7805aec049f9b4b72a15c27d"}
 
-    files = {"file": ("Petra.jpg", open("C:\Liz\Petra.jpg", "rb"))}
+    global g_filepath
+
+    filename = os.path.basename(g_filepath)
+    
+    files = {"file": (filename, open(g_filepath, "rb"))}
 
     response = requests.post(url, files=files, params=params).json()
-    print(response)
 
     scan_id = response["scan_id"]
 
@@ -31,6 +37,7 @@ def main():
         if response.status_code != no_content_in_response:
             response = response.json()
             response_code = response["response_code"]
+        time.sleep(1)
 
     result = response["positives"]
     
@@ -48,18 +55,18 @@ def main():
             result_string = result_string + "\r\n " + virus
         
         label_result_string.set(result_string)
-    print()
     
 
 def file_search():
-    filename = tkinter.filedialog.askopenfilename(initialdir = "/",
+    global g_filepath
+    g_filepath = tkinter.filedialog.askopenfilename(initialdir = "/",
 											  title = "Select a File",
 											  filetypes = (("all files",
 															"*.*"),
 															("Text files",
 															"*.txt*")))
 
-    label_file_name.set("The file choosen is: " + filename)
+    label_file_name.set("The file choosen is: " + g_filepath)
     label_result_string.set("Is this the correct file name?")
     start_checking_button["state"] = NORMAL
     start_checking_button.configure(background="gold")
