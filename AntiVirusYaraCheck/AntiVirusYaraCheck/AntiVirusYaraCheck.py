@@ -23,8 +23,6 @@ def main():
             result_string = result_string + match + "\r\n"
         label_result_string.set(result_string)
 
-    print()
-
 
 def file_search():
     global g_filepath;
@@ -91,5 +89,6 @@ start_checking_button = tkinter.Button(root,
                                        background="light grey")
 start_checking_button.pack()
 start_checking_button["state"] = DISABLED
+
 
 root.mainloop()
